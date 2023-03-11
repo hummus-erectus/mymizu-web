@@ -127,6 +127,18 @@ app.get("/get-refill-spot/:slug", async (req, res) => {
   }
 });
 
+app.get("/tags", async (req, res) => {
+  try {
+    const info = await myMizuClient(getToken(req), getLanguage(req)).get(`/api/tags/`);
+    res.status(200).send(info);
+  } catch (e) {
+    res.status(400).json({
+      message: "Unable to fetch tags",
+      error: e,
+    });
+  }
+});
+
 app.get("/refill/:language/:slug", (req, res) => {
   fs.readFile(path.resolve("./public/index.html"), "utf8", (err, data) => {
     if (err) {
