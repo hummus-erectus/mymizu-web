@@ -41,6 +41,7 @@ export function App({gmApiKey, gaTag}) {
   const [loading, setLoading] = useState(false);
   const [initialLoad, setInitialLoad] = useState(false);
   const [taps, setTaps] = useState([]);
+  const [tagGroups, setTagGroups] = useState([]);
   const [coordinate, setCoordinate] = useState({});
   const [locale, setLocale] = useState("ja");
   const [detectedLocale, setDetectedLocale] = useState(false);
@@ -269,6 +270,28 @@ export function App({gmApiKey, gaTag}) {
     }
     finishedRequest(reqRef);
   };
+  
+  const getAllTagGroups = async () => {
+    const reqRef = getRequestRef();
+    startedRequest(reqRef);
+    try {
+      setLoading(true);
+      const res = await axios.get("/tags");
+      const tagGroupsFromServer = res.data;
+
+      setInitialLoad(true);
+      setTagGroups(tagGroupsFromServer);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      setInitialLoad(true);
+      console.log("error", e);
+      /*ReactGA.exception({
+        description: 'Error loading initial taps',
+      });*/
+    }
+    finishedRequest(reqRef);
+  };
 
   const getTapsWhenMapsMoved = async (value) => {
     const reqRef = getRequestRef();
@@ -383,8 +406,9 @@ export function App({gmApiKey, gaTag}) {
   useEffect(() => {
     if (!taps.length && !initialLoad && locale && userToken) {
       getInitialTaps();
+      getAllTagGroups();
     }
-  }, [taps, setInitialLoad, initialLoad, setTaps, locale, userToken]);
+  }, [taps, tagGroups, setInitialLoad, initialLoad, setTaps, locale, userToken]);
 
   useEffect(() => {
     if (Object.keys(coordinate).length > 0) {
