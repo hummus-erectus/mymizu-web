@@ -17,8 +17,9 @@ For more information see details below!
 
 # mymizu Web
 
-pre-requisites:
-- [NodeJS](https://nodejs.org/en/download/package-manager/)
+Pre-requisites:
+
+- [NodeJS (version 18+)](https://nodejs.org/en/download/package-manager/)
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
 - mymizu api key
 - mymizu user token
