@@ -17,6 +17,8 @@ import googleMapAPI from "../utils/googlemaps";
 import debounce from "lodash.debounce";
 import classnames from "classnames";
 import {ShareModal} from "./components/ShareModal";
+import FilterSummary from "./components/FilterSummary";
+import FilterGroup from "./components/FilterGroup";
 
 const translations = {
   en: require("./translations/en.json"),
@@ -606,6 +608,7 @@ export function App({gmApiKey, gaTag}) {
           <div className="loading-indicator">&nbsp;</div>
         )}
       </div>
+      <FilterSummary tagGroups={tagGroups} />
       <div className="container-lg">
         {userToken && <Metrics/>}
         <FunFacts/>
